@@ -1,4 +1,4 @@
-node 'ubuntu-trusty.fritz.box' {
+node 'ubuntu-trusty' {
   include puppet
   include 'docker'
   include devtools::core
