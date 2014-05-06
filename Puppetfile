@@ -10,7 +10,7 @@ mod 'puppetlabs/java',
 mod 'maestrodev/wget'
 mod 'willdurand/nodejs'
 mod 'gini/archive',
-   :git => 'https://github.com/gini/puppet-archive.git'
+   :git => 'https://github.com/rattermeyer/puppet-archive.git'
 mod 'paulosuzart/gvm'
 mod 'garethr/docker'
 
