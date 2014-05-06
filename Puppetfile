@@ -10,24 +10,24 @@ mod 'puppetlabs/java',
 mod 'maestrodev/wget'
 mod 'willdurand/nodejs'
 mod 'gini/archive',
-   :git => 'https://github.com/rattermeyer/puppet-archive.git'
+   :git => 'https://github.com/gini/puppet-archive.git'
 mod 'paulosuzart/gvm'
 mod 'garethr/docker'
 
 mod 'ntp',
    :git => 'git://github.com/puppetlabs/puppetlabs-ntp.git'
 mod 'devtools',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-devtools.git'
+   :git => 'https://github.com/rattermeyer/puppet-devtools.git'
 mod 'javatools',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-javatools.git'
+   :git => 'https://github.com/rattermeyer/puppet-javatools.git'
 mod 'jstools',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-jstools.git'
+   :git => 'https://github.com/rattermeyer/puppet-jstools.git'
 mod 'puppet',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-puppet.git'
+   :git => 'https://github.com/rattermeyer/puppet-puppet.git'
 mod 'user',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-user.git'
+   :git => 'https://github.com/rattermeyer/puppet-user.git'
 mod 'intellij',
-   :git => 'https://RAT@git.opitz-consulting.de/scm/~rat/public-puppet-module-intellij.git'
+   :git => 'https://github.com/rattermeyer/puppet-intellij.git'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
