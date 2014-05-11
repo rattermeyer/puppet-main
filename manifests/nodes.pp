@@ -7,7 +7,6 @@ node 'ubuntu-trusty' {
   include javatools::apache_tomcat
   include javatools::apache_maven
   include javatools::jboss_wildfly
-#  include javatools::intellij
   include javatools::sts
   include javatools::squirrel
   include intellij
