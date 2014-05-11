@@ -1,8 +1,11 @@
 node 'ubuntu-trusty' {
   include puppet
   include 'docker'
+  include devtools
   include devtools::core
-  include devtools::desktop
+  class devtools::desktop { 'desktop' :
+	desktop => 'kubuntu-desktop'
+  }
   include javatools
   include javatools::apache_tomcat
   include javatools::apache_maven
