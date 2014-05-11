@@ -2,7 +2,6 @@ node 'ubuntu-trusty' {
   include puppet
   include 'docker'
   include devtools
-  include devtools::core
   devtools::desktop { 'desktop' :
 	desktop => 'kubuntu-desktop'
   }
