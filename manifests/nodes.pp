@@ -3,7 +3,7 @@ node 'ubuntu-trusty' {
   include 'docker'
   include devtools::core
   class { 'devtools::desktop' :
-	desktop => 'kubuntu-desktop'
+	desktop => 'ubuntu-desktop'
   }
   include javatools
   include javatools::apache_tomcat
