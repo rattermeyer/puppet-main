@@ -1,3 +1,5 @@
+node 'ci-master' {
+}
 node 'ubuntu-trusty' {
   include puppet
   include 'docker'
