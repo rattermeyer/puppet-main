@@ -1,5 +1,7 @@
 node 'ci-master' {
   include puppet
+  package { 'curl':
+  }
 
   class { '::mysql::server':
     root_password    => 'pleasechange',
@@ -79,6 +81,9 @@ node 'ci-master' {
     jdbc         => $sonar_jdbc,
     log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
+  }
+  class { 'gradle':
+    version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
 }

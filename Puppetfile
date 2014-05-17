@@ -34,6 +34,7 @@ mod 'hubspot/nexus', '1.2.0'
 mod 'roidelapluie/gerrit', '0.1.0'
 mod 'maestrodev/sonarqube', '2.1.1'
 mod 'puppetlabs/mysql', '2.2.3'
+mod 'gini/gradle', '0.2.0'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
