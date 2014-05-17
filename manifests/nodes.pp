@@ -1,4 +1,13 @@
 node 'ci-master' {
+  class { '::mysql::server':
+    root_password    => 'pleasechange',
+    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
+  }
+  mysql_database { 'sonar':
+    ensure  => 'present',
+    charset => 'utf8',
+    collate => 'utf8_unicode_ci',
+  }
   class { 'jenkins' :
     lts => true
   }
@@ -44,6 +53,36 @@ node 'ci-master' {
   jenkins::plugin {
     "xvfb" : ;
   } 
+  class { 'gerrit' :
+  }
+  class { 'nexus' :
+  }
+  class { 'sonarqube' :
+  }
+  $sonar_jdbc = {
+    url               => 'jdbc:h2:tcp://localhost:9092/sonar',
+    username          => 'sonar',
+    password          => 'sonar',
+  }
+  class { 'maven::maven' : } ->
+  class { 'sonarqube' :
+    version      => '3.7.4',
+    user         => 'sonar',
+    group        => 'sonar',
+    service      => 'sonar',
+    installroot  => '/usr/local',
+    home         => '/var/local/sonar',
+    download_url => 'http://dist.sonar.codehaus.org',
+    jdbc         => $sonar_jdbc,
+    log_folder   => '/var/local/sonar/logs',
+    updatecenter => 'true,
+  }
+#  sonarqube::plugin { 'sonar-twitter-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins',
+#    artifactid => 'sonar-twitter-plugin',
+#    version    => '0.1',
+#    notify     => Service['sonar'],
+#  }
 }
 node 'ubuntu-trusty' {
   include puppet
