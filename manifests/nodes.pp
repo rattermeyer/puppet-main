@@ -65,11 +65,11 @@ node 'ci-master' {
     nexus_root => '/opt'
   }
   $sonar_jdbc = {
-    url               => 'jdbc:h2:tcp://localhost:9092/sonar',
+    url               => 'jdbc:mysql://localhost:3306/sonar',
     username          => 'sonar',
     password          => 'sonar',
   }
-  class { 'maven::maven' : } 
+  class { 'maven::maven' : } ~>
   class { 'sonarqube' :
     version      => '3.7.4',
     user         => 'sonar',
