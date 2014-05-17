@@ -1,4 +1,6 @@
 node 'ci-master' {
+  include puppet
+
   class { '::mysql::server':
     root_password    => 'pleasechange',
     override_options => { 'mysqld' => { 'max_connections' => '1024' } }
@@ -30,7 +32,7 @@ node 'ci-master' {
     "view-job-filters" : ;
   } 
   jenkins::plugin {
-    "mail-ext" : ;
+    "email-ext" : ;
   } 
   jenkins::plugin {
     "greenballs" : ;
@@ -53,18 +55,19 @@ node 'ci-master' {
   jenkins::plugin {
     "xvfb" : ;
   } 
-  class { 'gerrit' :
-  }
-  class { 'nexus' :
-  }
-  class { 'sonarqube' :
+#  class { 'gerrit' :
+#  }
+  class{ '::nexus':
+    version    => '2.8.0',
+    revision   => '05',
+    nexus_root => '/opt'
   }
   $sonar_jdbc = {
     url               => 'jdbc:h2:tcp://localhost:9092/sonar',
     username          => 'sonar',
     password          => 'sonar',
   }
-  class { 'maven::maven' : } ~>
+  class { 'maven::maven' : } 
   class { 'sonarqube' :
     version      => '3.7.4',
     user         => 'sonar',
@@ -75,14 +78,9 @@ node 'ci-master' {
     download_url => 'http://dist.sonar.codehaus.org',
     jdbc         => $sonar_jdbc,
     log_folder   => '/var/local/sonar/logs',
-    updatecenter => 'true,
+    updatecenter => true,
   }
-#  sonarqube::plugin { 'sonar-twitter-plugin' :
-#    groupid    => 'org.codehaus.sonar-plugins',
-#    artifactid => 'sonar-twitter-plugin',
-#    version    => '0.1',
-#    notify     => Service['sonar'],
-#  }
+  Class['::java'] -> Class['::nexus']
 }
 node 'ubuntu-trusty' {
   include puppet
