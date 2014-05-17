@@ -14,7 +14,7 @@ mod 'gini/archive',
 mod 'paulosuzart/gvm'
 mod 'garethr/docker'
 
-mod 'ntp',
+mod 'puppetlabs/ntp',
    :git => 'git://github.com/puppetlabs/puppetlabs-ntp.git'
 mod 'devtools',
    :git => 'https://github.com/rattermeyer/puppet-devtools.git'
@@ -28,6 +28,8 @@ mod 'user',
    :git => 'https://github.com/rattermeyer/puppet-user.git'
 mod 'intellij',
    :git => 'https://github.com/rattermeyer/puppet-intellij.git'
+
+mod 'rtyler/jenkins', '1.1.0'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
