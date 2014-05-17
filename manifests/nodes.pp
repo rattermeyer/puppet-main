@@ -1,4 +1,49 @@
 node 'ci-master' {
+  class { 'jenkins' :
+    lts => true
+  }
+  jenkins::plugin {
+    "git" : ;
+  }  
+  jenkins::plugin {
+    "gitlab-hook" : ;
+  }  
+  jenkins::plugin {
+    "delivery-pipeline-plugin" : ;
+  } 
+  jenkins::plugin {
+    "maven-plugin" : ;
+  } 
+  jenkins::plugin {
+    "gradle" : ;
+  } 
+  jenkins::plugin {
+    "view-job-filters" : ;
+  } 
+  jenkins::plugin {
+    "mail-ext" : ;
+  } 
+  jenkins::plugin {
+    "greenballs" : ;
+  } 
+  jenkins::plugin {
+    "chucknorris" : ;
+  } 
+  jenkins::plugin {
+    "jobConfigHistory" : ;
+  } 
+  jenkins::plugin {
+    "shelve-project-plugin" : ;
+  } 
+  jenkins::plugin {
+    "docker-plugin" : ;
+  } 
+  jenkins::plugin {
+    "build-pipeline-plugin" : ;
+  } 
+  jenkins::plugin {
+    "xvfb" : ;
+  } 
 }
 node 'ubuntu-trusty' {
   include puppet
