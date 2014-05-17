@@ -64,7 +64,7 @@ node 'ci-master' {
     username          => 'sonar',
     password          => 'sonar',
   }
-  class { 'maven::maven' : } ->
+  class { 'maven::maven' : } ~>
   class { 'sonarqube' :
     version      => '3.7.4',
     user         => 'sonar',
