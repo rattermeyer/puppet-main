@@ -86,6 +86,20 @@ node 'ci-master' {
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
+  
+  class { 'apache' :
+    default_vhost => false,
+  }
+  apache::vhost { 'ci-master' :
+    vhost_name   => '*',
+    port	 => 80,
+    default_vhost => true,
+    docroot	  => '/var/www/default',
+    proxy_pass => [
+      { 'path' => '/nexus', 'url' => 'http://localhost:8081/nexus' },
+    ],
+  }
+
 }
 node 'ubuntu-trusty' {
   include puppet

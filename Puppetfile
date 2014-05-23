@@ -12,7 +12,7 @@ mod 'willdurand/nodejs'
 mod 'gini/archive',
    :git => 'https://github.com/rattermeyer/puppet-archive.git'
 mod 'paulosuzart/gvm'
-mod 'garethr/docker'
+#mod 'garethr/docker'
 
 mod 'puppetlabs/ntp',
    :git => 'git://github.com/puppetlabs/puppetlabs-ntp.git'
@@ -35,6 +35,7 @@ mod 'roidelapluie/gerrit', '0.1.0'
 mod 'maestrodev/sonarqube', '2.1.1'
 mod 'puppetlabs/mysql', '2.2.3'
 mod 'gini/gradle', '0.2.0'
+mod 'puppetlabs/apache', '1.0.1'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
