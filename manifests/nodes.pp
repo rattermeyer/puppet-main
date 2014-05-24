@@ -57,6 +57,13 @@ node 'ci-master' {
   jenkins::plugin {
     "xvfb" : ;
   } 
+  Exec {
+    path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
+  }
+  exec { 'jenkins-prefix' : 
+    command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
+    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`'
+  }
 #  class { 'gerrit' :
 #  }
   class{ '::nexus':
@@ -88,15 +95,16 @@ node 'ci-master' {
   Class['::java'] -> Class['::nexus']
   
   class { 'apache' :
-    default_vhost => false,
+    default_vhost => false
   }
   apache::vhost { 'ci-master' :
-    vhost_name   => '*',
-    port	 => 80,
-    default_vhost => true,
-    docroot	  => '/var/www/default',
-    proxy_pass => [
+    port	   => 80,
+    default_vhost  => true,
+    docroot	   => '/var/www/default',
+    proxy_pass     => [
       { 'path' => '/nexus', 'url' => 'http://localhost:8081/nexus' },
+      { 'path' => '/sonar', 'url' => 'http://localhost:9000' },
+      { 'path' => '/jenkins', 'url' => 'http://localhost:8080/jenkins' },
     ],
   }
 
