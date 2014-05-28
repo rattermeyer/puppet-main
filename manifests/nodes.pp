@@ -7,10 +7,14 @@ node 'ci-master' {
     root_password    => 'pleasechange',
     override_options => { 'mysqld' => { 'max_connections' => '1024' } }
   }
-  mysql_database { 'sonar':
-    ensure  => 'present',
-    charset => 'utf8',
-    collate => 'utf8_unicode_ci',
+  class { '::mysql::client' :
+    package_ensure => 'present'
+  }
+  mysql::db { 'sonar':
+      user     => 'sonar',
+      password => 'sonar',
+      host     => 'localhost',
+      grant    => ['ALL'],
   }
   class { 'jenkins' :
     lts => true
@@ -72,13 +76,12 @@ node 'ci-master' {
     nexus_root => '/opt'
   }
   $sonar_jdbc = {
-    url               => 'jdbc:mysql://localhost:3306/sonar',
+    url               => 'jdbc:mysql://127.0.0.1:3306/sonar',
     username          => 'sonar',
     password          => 'sonar',
   }
-  class { 'maven::maven' : } ~>
   class { 'sonarqube' :
-    version      => '3.7.4',
+    version      => '4.3',
     user         => 'sonar',
     group        => 'sonar',
     service      => 'sonar',
@@ -88,6 +91,49 @@ node 'ci-master' {
     jdbc         => $sonar_jdbc,
     log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
+    context_path => '/sonar'
+  }
+  sonarqube::plugin { 'sonar-java-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins.java',
+    artifactid => 'sonar-java-plugin',
+    version    => '2.2.1',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-motion-chart-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins',
+    artifactid => 'sonar-motion-chart-plugin',
+    version    => '1.6',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-build-breaker-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins',
+    artifactid => 'sonar-build-breaker-plugin',
+    version    => '1.1',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-build-stability-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins',
+    artifactid => 'sonar-build-stability-plugin',
+    version    => '1.2',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-groovy-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins',
+    artifactid => 'sonar-groovy-plugin',
+    version    => '1.0.1',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-javascript-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins.javascript',
+    artifactid => 'sonar-javascript-plugin',
+    version    => '1.6',
+    notify     => Service['sonar'],
+  }
+  sonarqube::plugin { 'sonar-branding-plugin' :
+    groupid    => 'org.codehaus.sonar-plugins',
+    artifactid => 'sonar-branding-plugin',
+    version    => '0.4',
+    notify     => Service['sonar'],
   }
   class { 'gradle':
     version => '1.12',
@@ -103,7 +149,7 @@ node 'ci-master' {
     docroot	   => '/var/www/default',
     proxy_pass     => [
       { 'path' => '/nexus', 'url' => 'http://localhost:8081/nexus' },
-      { 'path' => '/sonar', 'url' => 'http://localhost:9000' },
+      { 'path' => '/sonar', 'url' => 'http://localhost:9000/sonar' },
       { 'path' => '/jenkins', 'url' => 'http://localhost:8080/jenkins' },
     ],
   }
