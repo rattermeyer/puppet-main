@@ -139,7 +139,11 @@ node 'ci-master' {
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
-  
+  include docker
+  docker::image { 'sameersbn/gitlab': }
+  file { ['/opt/gitlab', '/opt/gitlab/data'] :
+    ensure  => 'directory',
+  }
   class { 'apache' :
     default_vhost => false
   }
