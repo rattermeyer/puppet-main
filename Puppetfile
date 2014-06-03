@@ -5,7 +5,9 @@ forge "http://forge.puppetlabs.com"
 
 mod 'puppetlabs/stdlib'
 mod 'puppetlabs/java'
+mod 'puppetlabs/apache'
 mod 'willdurand/nodejs'
+mod 'gini/gradle'
 mod 'gini/archive',
    :git => 'https://github.com/rattermeyer/puppet-archive.git'
 mod 'paulosuzart/gvm'
