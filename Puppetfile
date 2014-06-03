@@ -4,10 +4,7 @@
 forge "http://forge.puppetlabs.com"
 
 mod 'puppetlabs/stdlib'
-mod 'puppetlabs/apt'
-mod 'puppetlabs/java',
-   :git => 'https://github.com/puppetlabs/puppetlabs-java.git'
-mod 'maestrodev/wget'
+mod 'puppetlabs/java'
 mod 'willdurand/nodejs'
 mod 'gini/archive',
    :git => 'https://github.com/rattermeyer/puppet-archive.git'
@@ -30,12 +27,12 @@ mod 'user',
 mod 'intellij',
    :git => 'https://github.com/rattermeyer/puppet-intellij.git'
 
-mod 'rtyler/jenkins', '1.1.0'
-mod 'hubspot/nexus', '1.2.0'
-mod 'maestrodev/sonarqube', '2.1.1'
-mod 'puppetlabs/mysql', '2.2.3'
-mod 'gini/gradle', '0.2.0'
-mod 'puppetlabs/apache', '1.0.1'
+mod 'rtyler/jenkins'
+mod 'hubspot/nexus'
+mod 'maestrodev/sonarqube'
+mod 'puppetlabs/mysql'
+#mod 'gini/gradle'
+#mod 'puppetlabs/apache'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
