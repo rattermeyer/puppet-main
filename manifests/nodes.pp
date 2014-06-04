@@ -91,56 +91,66 @@ node 'ci-master' {
     jdbc         => $sonar_jdbc,
     log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
-    context_path => '/sonar'
+    context_path => '/sonar',
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-java-plugin' :
     groupid    => 'org.codehaus.sonar-plugins.java',
     artifactid => 'sonar-java-plugin',
     version    => '2.2.1',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-motion-chart-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-motion-chart-plugin',
     version    => '1.6',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-build-breaker-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-breaker-plugin',
     version    => '1.1',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-build-stability-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-stability-plugin',
     version    => '1.2',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-groovy-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-groovy-plugin',
     version    => '1.0.1',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-javascript-plugin' :
     groupid    => 'org.codehaus.sonar-plugins.javascript',
     artifactid => 'sonar-javascript-plugin',
     version    => '1.6',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   sonarqube::plugin { 'sonar-branding-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-branding-plugin',
     version    => '0.4',
     notify     => Service['sonar'],
+    require  => Class['maven'],
   }
   class { 'gradle':
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
   include docker
-  docker::image { 'sameersbn/gitlab': }
+  docker::image { 'sameersbn/gitlab': 
+    image_tag => '6.9.2'
+  }
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
   }
