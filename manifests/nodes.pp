@@ -2,10 +2,14 @@ node 'ci-master' {
   include puppet
   package { 'curl':
   }
-
   class { '::mysql::server':
     root_password    => 'pleasechange',
-    override_options => { 'mysqld' => { 'max_connections' => '1024' } }
+    override_options => { 
+      'mysqld' => { 
+	'max_connections' => '1024', 
+	'bind-address' => "${ipaddress_eth0}",
+       } 
+    }
   }
   class { '::mysql::client' :
     package_ensure => 'present'
@@ -16,6 +20,21 @@ node 'ci-master' {
       host     => 'localhost',
       grant    => ['ALL'],
   }
+  mysql::db { 'gitlabhq_production':
+      user     => 'gitlab',
+      password => 'password',
+      host     => '%.%.%.%',
+      grant    => ['ALL'],
+      charset  => 'utf8',
+      collate  => 'utf8_unicode_ci'
+  }
+  mysql_grant { 'gitlab@%.%.%.%': 
+    ensure => 'present',
+    privileges => ['ALL'],
+    table      => 'gitlab.*',
+    user       => 'gitlab@%.%.%.%',
+  }
+
   class { 'jenkins' :
     lts => true
   }
@@ -147,12 +166,20 @@ node 'ci-master' {
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
-  include docker
+  class { 'docker':
+    use_upstream_package_source => false,
+    manage_kernel => false
+  }
   docker::image { 'sameersbn/gitlab': 
     image_tag => '6.9.2'
   }
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
+  }
+  exec { 'docker-gitlab-firstrun' :
+    require => [File['/opt/gitlab'], Docker::Image['sameersbn/gitlab']],
+    command => "puppet:///docker-gitlab-firstrun.sh ${ipaddress_eth} gitlabhq_production gitlab password",
+    creates => '/etc/docker-gitlab-firstrun.log'
   }
   class { 'apache' :
     default_vhost => false
@@ -165,6 +192,7 @@ node 'ci-master' {
       { 'path' => '/nexus', 'url' => 'http://localhost:8081/nexus' },
       { 'path' => '/sonar', 'url' => 'http://localhost:9000/sonar' },
       { 'path' => '/jenkins', 'url' => 'http://localhost:8080/jenkins' },
+      { 'path' => '/gitlab', 'url' => 'http://127.0.0.1:10080/gitlab' },
     ],
   }
 
