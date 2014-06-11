@@ -3,19 +3,18 @@
 
 forge "http://forge.puppetlabs.com"
 
-mod 'puppetlabs/stdlib'
-mod 'puppetlabs/java'
-mod 'puppetlabs/apache'
-mod 'willdurand/nodejs'
-mod 'gini/gradle'
+mod 'puppetlabs/stdlib', '4.2.2'
+mod 'puppetlabs/java', '1.1.1'
+mod 'puppetlabs/apache', '1.0.1'
+mod 'willdurand/nodejs', '1.6.4'
+mod 'gini/gradle', '0.2.0'
 mod 'gini/archive',
    :git => 'https://github.com/rattermeyer/puppet-archive.git'
-mod 'paulosuzart/gvm'
+mod 'paulosuzart/gvm', '1.0.1'
 mod 'garethr/docker', 
    :git => 'https://github.com/garethr/garethr-docker',
    :ref => 'v0.11.1'
-mod 'puppetlabs/ntp',
-   :git => 'git://github.com/puppetlabs/puppetlabs-ntp.git'
+mod 'puppetlabs/ntp', '3.1.1'
 mod 'devtools',
    :git => 'https://github.com/rattermeyer/puppet-devtools.git'
 mod 'javatools',
@@ -29,12 +28,12 @@ mod 'user',
 mod 'intellij',
    :git => 'https://github.com/rattermeyer/puppet-intellij.git'
 
-mod 'rtyler/jenkins'
-mod 'hubspot/nexus'
-mod 'maestrodev/sonarqube'
-mod 'puppetlabs/mysql'
-#mod 'gini/gradle'
-#mod 'puppetlabs/apache'
+mod 'rtyler/jenkins', '1.1.0'
+mod 'hubspot/nexus', '1.2.0'
+mod 'maestrodev/sonarqube', '2.1.1'
+mod 'puppetlabs/mysql', '2.2.3'
+#mod 'gini/gradle', '0.2.0'
+#mod 'puppetlabs/apache', '1.0.1'
 
 # mod 'apt',
 #   :git => 'https://github.com/puppetlabs/puppetlabs-apt.git',
