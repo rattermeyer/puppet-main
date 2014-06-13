@@ -99,6 +99,8 @@ node 'ci-master' {
     username          => 'sonar',
     password          => 'sonar',
   }
+  class { 'maven' :
+  }~>
   class { 'sonarqube' :
     version      => '4.3',
     user         => 'sonar',
@@ -166,13 +168,16 @@ node 'ci-master' {
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
-  class { 'docker':
-    use_upstream_package_source => false,
-    manage_kernel => false
-  }
+  file { '/usr/bin/docker':
+    ensure => 'link',
+    target => '/usr/bin/docker.io',
+  }~>
+  exec { 'docker-complete' :
+    command => 'sed -i \'$acomplete -F _docker docker\' /etc/bash_completion.d/docker.io'
+  }~>  
   docker::image { 'sameersbn/gitlab': 
     image_tag => '6.9.2'
-  }
+  }~>
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
   }
