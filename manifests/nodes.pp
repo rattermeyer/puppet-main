@@ -183,7 +183,7 @@ node 'ci-master' {
   }
   exec { 'docker-gitlab-firstrun' :
     require => [File['/opt/gitlab'], Docker::Image['sameersbn/gitlab']],
-    command => "puppet:///docker-gitlab-firstrun.sh ${ipaddress_eth} gitlabhq_production gitlab password",
+    command => "puppet:////docker-gitlab-firstrun.sh ${ipaddress_eth} gitlabhq_production gitlab password",
     creates => '/etc/docker-gitlab-firstrun.log'
   }
   class { 'apache' :
