@@ -100,7 +100,7 @@ node 'ci-master' {
     password          => 'sonar',
   }
   class { 'maven' :
-  }~>
+  }->
   class { 'sonarqube' :
     version      => '4.3',
     user         => 'sonar',
@@ -171,20 +171,24 @@ node 'ci-master' {
   file { '/usr/bin/docker':
     ensure => 'link',
     target => '/usr/bin/docker.io',
-  }~>
-  exec { 'docker-complete' :
+  }->
+  exec { 'docker-bash-complete' :
     command => 'sed -i \'$acomplete -F _docker docker\' /etc/bash_completion.d/docker.io'
-  }~>  
+  }->  
   docker::image { 'sameersbn/gitlab': 
     image_tag => '6.9.2'
-  }~>
+  }->
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
-  }
+  }->
   exec { 'docker-gitlab-firstrun' :
     require => [File['/opt/gitlab'], Docker::Image['sameersbn/gitlab']],
-    command => "puppet:////docker-gitlab-firstrun.sh ${ipaddress_eth} gitlabhq_production gitlab password",
-    creates => '/etc/docker-gitlab-firstrun.log'
+    command => "docker run --name=gitlab -i -t --rm -e \"DB_HOST=${ipaddress_eth0}\" -e \"DB_NAME=gitlabhq_production\" -e \"DB_USER=gitlab\" -e \"DB_PASS=password\" -v /opt/gitlab/data:/home/git/data sameersbn/gitlab:6.9.2 force=yes app:rake gitlab:setup",
+    onlyif => "test -z `docker ps -a | grep gitlab`"
+  }->
+  exec { 'docker-normal-run' :
+    onlyif => "test -n `docker ps -a | grep gitlab`",
+    command => "docker run --name=gitlab -d -e \"DB_HOST=${ipaddress_eth0}\" -e \"DB_NAME=gitlabhq_production\" -e \"DB_USER=gitlab\" -e \"DB_PASS=password\" -e \"GITLAB_PORT=10080\" -e \"GITLAB_SSH_PORT=10022\" -e \"GITLAB_RELATIVE_URL_ROOT=/gitlab\" -p 127.0.0.1:10022:22 -p 127.0.0.1:10080:80 -v /opt/gitlab/data:/home/git/data sameersbn/gitlab:6.9.2"
   }
   class { 'apache' :
     default_vhost => false
