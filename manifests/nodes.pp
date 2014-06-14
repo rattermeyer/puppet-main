@@ -99,7 +99,7 @@ node 'ci-master' {
     username          => 'sonar',
     password          => 'sonar',
   }
-  class { 'maven' :
+  class { 'javatools::apache_maven' :
   }->
   class { 'sonarqube' :
     version      => '4.3',
