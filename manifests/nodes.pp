@@ -101,6 +101,11 @@ node 'ci-master' {
   }
   class { 'javatools::apache_maven' :
   }->
+  file { 'mvn-bin-link':
+    path   => '/usr/local/bin/mvn',
+    ensure => link,
+    target => '/opt/apache-current/bin/mvn'
+  }->
   class { 'sonarqube' :
     version      => '4.3',
     user         => 'sonar',
@@ -113,56 +118,56 @@ node 'ci-master' {
     log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
     context_path => '/sonar',
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-java-plugin' :
     groupid    => 'org.codehaus.sonar-plugins.java',
     artifactid => 'sonar-java-plugin',
     version    => '2.2.1',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-motion-chart-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-motion-chart-plugin',
     version    => '1.6',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-build-breaker-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-breaker-plugin',
     version    => '1.1',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-build-stability-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-stability-plugin',
     version    => '1.2',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-groovy-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-groovy-plugin',
     version    => '1.0.1',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-javascript-plugin' :
     groupid    => 'org.codehaus.sonar-plugins.javascript',
     artifactid => 'sonar-javascript-plugin',
     version    => '1.6',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   sonarqube::plugin { 'sonar-branding-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-branding-plugin',
     version    => '0.4',
     notify     => Service['sonar'],
-    require  => Class['maven'],
+    require  => Class['javatools::apache_maven'],
   }
   class { 'gradle':
     version => '1.12',
@@ -175,14 +180,11 @@ node 'ci-master' {
   exec { 'docker-bash-complete' :
     command => 'sed -i \'$acomplete -F _docker docker\' /etc/bash_completion.d/docker.io'
   }->  
-  docker::image { 'sameersbn/gitlab': 
-    image_tag => '6.9.2'
-  }->
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
   }->
   exec { 'docker-gitlab-firstrun' :
-    require => [File['/opt/gitlab'], Docker::Image['sameersbn/gitlab']],
+    require => File['/opt/gitlab'],
     command => "docker run --name=gitlab -i -t --rm -e \"DB_HOST=${ipaddress_eth0}\" -e \"DB_NAME=gitlabhq_production\" -e \"DB_USER=gitlab\" -e \"DB_PASS=password\" -v /opt/gitlab/data:/home/git/data sameersbn/gitlab:6.9.2 force=yes app:rake gitlab:setup",
     onlyif => "test -z `docker ps -a | grep gitlab`"
   }->
