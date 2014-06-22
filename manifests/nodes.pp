@@ -40,7 +40,7 @@ node 'ci-master' {
   }
   exec { 'jenkins-prefix' : 
     command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
-    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`'
+    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`',
     require => Class['jenkins']
   }
   jenkins::plugin {
@@ -103,11 +103,11 @@ node 'ci-master' {
     user         => 'sonar',
     group        => 'sonar',
     service      => 'sonar',
-    installroot  => '/opt',
-    home         => '/opt/sonar',
+    installroot  => '/usr/local',
+    home         => '/var/local/sonar',
     download_url => 'http://dist.sonar.codehaus.org',
     jdbc         => $sonar_jdbc,
-    log_folder   => '/opt/sonar/logs',
+    log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
     context_path => '/sonar',
     require  => Class['maven::maven'],
