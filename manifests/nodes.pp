@@ -163,6 +163,7 @@ node 'ci-master' {
   }
   class { 'gradle':
     version => '1.12',
+    require => Package['unzip']
   }
   Class['::java'] -> Class['::nexus']
   class { 'apache' :
