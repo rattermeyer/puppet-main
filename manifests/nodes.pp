@@ -88,8 +88,6 @@ node 'ci-master' {
   Exec {
     path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
   }
-#  class { 'gerrit' :
-#  }
   class{ '::nexus':
     version    => '2.8.0',
     revision   => '05',
