@@ -87,8 +87,6 @@ node 'ci-master' {
     command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
     onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`'
   }
-#  class { 'gerrit' :
-#  }
   class{ '::nexus':
     version    => '2.8.0',
     revision   => '05',
@@ -104,11 +102,11 @@ node 'ci-master' {
     user         => 'sonar',
     group        => 'sonar',
     service      => 'sonar',
-    installroot  => '/opt',
-    home         => '/opt/sonar',
+    installroot  => '/usr/local',
+    home         => '/var/local/sonar',
     download_url => 'http://dist.sonar.codehaus.org',
     jdbc         => $sonar_jdbc,
-    log_folder   => '/opt/sonar/logs',
+    log_folder   => '/var/local/sonar/logs',
     updatecenter => true,
     context_path => '/sonar',
     require  => Class['maven::maven'],
@@ -162,10 +160,12 @@ node 'ci-master' {
     notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
+
   class { 'gradle':
     version => '1.12',
   }
   Class['::java'] -> Class['::nexus']
+  Class['::java'] -> Class['maven::maven']
   class { 'apache' :
     default_vhost => false
   }
