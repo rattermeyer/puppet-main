@@ -38,6 +38,11 @@ node 'ci-master' {
   class { 'jenkins' :
     lts => true
   }
+  exec { 'jenkins-prefix' : 
+    command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
+    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`'
+    require => Class['jenkins']
+  }
   jenkins::plugin {
     "git" : ;
   }  
@@ -82,10 +87,6 @@ node 'ci-master' {
   } 
   Exec {
     path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
-  }
-  exec { 'jenkins-prefix' : 
-    command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
-    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`'
   }
 #  class { 'gerrit' :
 #  }
