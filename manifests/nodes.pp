@@ -1,5 +1,12 @@
 node 'ci-master' {
   include puppet
+  network_config { 'eth1':
+    ensure  => 'present',
+    family  => 'inet',
+    method  => 'dhcp',
+    onboot  => 'true',
+    hotplug => 'true',
+  }
   package { 'curl':
   }
   class { '::mysql::server':
