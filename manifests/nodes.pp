@@ -14,7 +14,6 @@ node 'ci-master' {
     override_options => { 
       'mysqld' => { 
 	'max_connections' => '1024', 
-	'bind-address' => "${ipaddress_eth0}",
        } 
     }
   }
@@ -24,7 +23,7 @@ node 'ci-master' {
   mysql::db { 'sonar':
       user     => 'sonar',
       password => 'sonar',
-      host     => 'localhost',
+      host     => '%.%.%.%',
       grant    => ['ALL'],
   }
   mysql::db { 'gitlabhq_production':
@@ -101,12 +100,12 @@ node 'ci-master' {
     nexus_root => '/opt'
   }
   $sonar_jdbc = {
-    url               => 'jdbc:mysql://127.0.0.1:3306/sonar',
+    url               => "jdbc:mysql://127.0.0.1:3306/sonar",
     username          => 'sonar',
     password          => 'sonar',
   }
   class { 'sonarqube' :
-    version      => '4.3',
+    version      => '4.3.2',
     user         => 'sonar',
     group        => 'sonar',
     service      => 'sonar',
@@ -119,53 +118,40 @@ node 'ci-master' {
     context_path => '/sonar',
     require  => Class['maven::maven'],
   }
-  sonarqube::plugin { 'sonar-java-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins.java',
-    artifactid => 'sonar-java-plugin',
-    version    => '2.2.1',
-    notify     => Service['sonar'],
-    require  => Class['maven::maven'],
-  }
   sonarqube::plugin { 'sonar-motion-chart-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-motion-chart-plugin',
     version    => '1.6',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   sonarqube::plugin { 'sonar-build-breaker-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-breaker-plugin',
     version    => '1.1',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   sonarqube::plugin { 'sonar-build-stability-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-build-stability-plugin',
     version    => '1.2',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   sonarqube::plugin { 'sonar-groovy-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-groovy-plugin',
     version    => '1.0.1',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   sonarqube::plugin { 'sonar-javascript-plugin' :
     groupid    => 'org.codehaus.sonar-plugins.javascript',
     artifactid => 'sonar-javascript-plugin',
     version    => '1.6',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   sonarqube::plugin { 'sonar-branding-plugin' :
     groupid    => 'org.codehaus.sonar-plugins',
     artifactid => 'sonar-branding-plugin',
     version    => '0.4',
-    notify     => Service['sonar'],
     require  => Class['maven::maven'],
   }
   class { 'gradle':
