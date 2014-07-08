@@ -41,6 +41,12 @@ node 'ci-master' {
     table      => 'gitlab.*',
     user       => 'gitlab@%.%.%.%',
   }
+  mysql_grant { 'sonar@%.%.%.%': 
+    ensure => 'present',
+    privileges => ['ALL'],
+    table      => 'sonar.*',
+    user       => 'sonar@%.%.%.%',
+  }
   file { ['/opt/gitlab', '/opt/gitlab/data'] :
     ensure  => 'directory',
   }->
@@ -114,7 +120,7 @@ node 'ci-master' {
     nexus_root => '/opt'
   }
   $sonar_jdbc = {
-    url               => "jdbc:mysql://127.0.0.1:3306/sonar",
+    url               => "jdbc:mysql://${ipaddress_eth0}:3306/sonar",
     username          => 'sonar',
     password          => 'sonar',
   }
@@ -184,7 +190,7 @@ node 'ci-master' {
       { 'path' => '/nexus', 'url' => 'http://localhost:8081/nexus' },
       { 'path' => '/sonar', 'url' => 'http://localhost:9000/sonar' },
       { 'path' => '/jenkins', 'url' => 'http://localhost:8080/jenkins' },
-      { 'path' => '/gitlab', 'url' => 'http://127.0.0.1:10080/gitlab' },
+      { 'path' => '/gitlab', 'url' => 'http://127.0.0.1:10080/gitlab/' },
     ],
   }
 
