@@ -61,56 +61,9 @@ node 'ci-master' {
     command => "docker run --name=gitlab -d -e \"DB_HOST=${ipaddress_eth0}\" -e \"DB_NAME=gitlabhq_production\" -e \"DB_USER=gitlab\" -e \"DB_PASS=password\" -e \"GITLAB_PORT=10080\" -e \"GITLAB_SSH_PORT=10022\" -e \"GITLAB_RELATIVE_URL_ROOT=/gitlab\" -p 127.0.0.1:10022:22 -p 127.0.0.1:10080:80 -v /opt/gitlab/data:/home/git/data sameersbn/gitlab:7.0.0",
     timeout => 0
   }
-  class { 'jenkins' :
-    lts => true
+  class { '::java' : 
   }
-  exec { 'jenkins-prefix' : 
-    command => 'sed -i -e \'s/JENKINS_ARGS="\(.*\)"/JENKINS_ARGS="\1 --prefix=$PREFIX"/g\' /etc/default/jenkins',
-    onlyif => 'test -z `grep "JENKINS_ARGS" /etc/default/jenkins | grep  "\-\-prefix"`',
-    require => Class['jenkins']
-  }
-  jenkins::plugin {
-    "git" : ;
-  }  
-  jenkins::plugin {
-    "gitlab-hook" : ;
-  }  
-  jenkins::plugin {
-    "delivery-pipeline-plugin" : ;
-  } 
-  jenkins::plugin {
-    "maven-plugin" : ;
-  } 
-  jenkins::plugin {
-    "gradle" : ;
-  } 
-  jenkins::plugin {
-    "view-job-filters" : ;
-  } 
-  jenkins::plugin {
-    "email-ext" : ;
-  } 
-  jenkins::plugin {
-    "greenballs" : ;
-  } 
-  jenkins::plugin {
-    "chucknorris" : ;
-  } 
-  jenkins::plugin {
-    "jobConfigHistory" : ;
-  } 
-  jenkins::plugin {
-    "shelve-project-plugin" : ;
-  } 
-  jenkins::plugin {
-    "docker-plugin" : ;
-  } 
-  jenkins::plugin {
-    "build-pipeline-plugin" : ;
-  } 
-  jenkins::plugin {
-    "xvfb" : ;
-  } 
+  include profiles::jenkinsmaster
   Exec {
     path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
   }

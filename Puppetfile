@@ -27,6 +27,8 @@ mod 'user',
    :git => 'https://github.com/rattermeyer/puppet-user.git'
 mod 'intellij',
    :git => 'https://github.com/rattermeyer/puppet-intellij.git'
+mod 'profiles',
+   :git => 'https://github.com/rattermeyer/puppet-ci-profiles.git'
 
 mod 'rtyler/jenkins', '1.1.0'
 mod 'hubspot/nexus', '1.2.0'
