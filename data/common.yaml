@@ -64,5 +64,23 @@ profile::jenkinsmaster::plugins:
       'version': '1.0.12'
     'view-job-filters':
       'version': '1.26'
-
+profile::sonar::plugins:
+    'sonar-motion-chart-plugin':
+      'artifactid' : 'sonar-motion-chart-plugin'
+      'version'    : '1.6'
+    'sonar-build-breaker-plugin':
+      'artifactid' : 'sonar-build-breaker-plugin'
+      'version'    : '1.1'
+    'sonar-build-stability-plugin':
+      'artifactid' : 'sonar-build-stability-plugin'
+      'version'    : '1.2'
+    'sonar-groovy-plugin':
+      'artifactid' : 'sonar-groovy-plugin'
+      'version'    : '1.0.1'
+    'sonar-javascript-plugin':
+      'artifactid' : 'sonar-javascript-plugin'
+      'version'    : '1.6'
+    'sonar-branding-plugin':
+      'artifactid' : 'sonar-branding-plugin'
+      'version'    : '0.4'
 

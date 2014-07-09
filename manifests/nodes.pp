@@ -72,61 +72,37 @@ node 'ci-master' {
     revision   => '05',
     nexus_root => '/opt'
   }
-  $sonar_jdbc = {
-    url               => "jdbc:mysql://${ipaddress_eth0}:3306/sonar",
-    username          => 'sonar',
-    password          => 'sonar',
-  }
-  class { 'sonarqube' :
-    version      => '4.3.2',
-    user         => 'sonar',
-    group        => 'sonar',
-    service      => 'sonar',
-    installroot  => '/usr/local',
-    home         => '/var/local/sonar',
-    download_url => 'http://dist.sonar.codehaus.org',
-    jdbc         => $sonar_jdbc,
-    log_folder   => '/var/local/sonar/logs',
-    updatecenter => true,
-    context_path => '/sonar',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-motion-chart-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins',
-    artifactid => 'sonar-motion-chart-plugin',
-    version    => '1.6',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-build-breaker-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins',
-    artifactid => 'sonar-build-breaker-plugin',
-    version    => '1.1',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-build-stability-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins',
-    artifactid => 'sonar-build-stability-plugin',
-    version    => '1.2',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-groovy-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins',
-    artifactid => 'sonar-groovy-plugin',
-    version    => '1.0.1',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-javascript-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins.javascript',
-    artifactid => 'sonar-javascript-plugin',
-    version    => '1.6',
-    require  => Class['maven::maven'],
-  }
-  sonarqube::plugin { 'sonar-branding-plugin' :
-    groupid    => 'org.codehaus.sonar-plugins',
-    artifactid => 'sonar-branding-plugin',
-    version    => '0.4',
-    require  => Class['maven::maven'],
-  }
+  include profiles::sonar
+#  sonarqube::plugin { 'sonar-build-breaker-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins',
+#    artifactid => 'sonar-build-breaker-plugin',
+#    version    => '1.1',
+#    require  => Class['maven::maven'],
+#  }
+#  sonarqube::plugin { 'sonar-build-stability-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins',
+#    artifactid => 'sonar-build-stability-plugin',
+#    version    => '1.2',
+#    require  => Class['maven::maven'],
+#  }
+#  sonarqube::plugin { 'sonar-groovy-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins',
+#    artifactid => 'sonar-groovy-plugin',
+#    version    => '1.0.1',
+#    require  => Class['maven::maven'],
+#  }
+#  sonarqube::plugin { 'sonar-javascript-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins.javascript',
+#    artifactid => 'sonar-javascript-plugin',
+#    version    => '1.6',
+#    require  => Class['maven::maven'],
+#  }
+#  sonarqube::plugin { 'sonar-branding-plugin' :
+#    groupid    => 'org.codehaus.sonar-plugins',
+#    artifactid => 'sonar-branding-plugin',
+#    version    => '0.4',
+#    require  => Class['maven::maven'],
+#  }
   class { 'gradle':
     version => '1.12',
     require => Package['unzip']
