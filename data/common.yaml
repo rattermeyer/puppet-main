@@ -4,8 +4,8 @@ profile::jenkinsmaster::plugins:
       'version': '1.4.3'
     'build-timeout':
       'version': '1.14'
-    'chuknorris':
-      'version': '1.3.3'
+    'chucknorris':
+      'version': '0.5'
     'chosen-views-tabbar':
       'version': '1.2'
     'conditional-buildstep':
