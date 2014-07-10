@@ -7,7 +7,12 @@ node 'ci-master' {
     onboot  => 'true',
     hotplug => 'true',
   }
+  Exec {
+    path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
+  }
   package { 'curl':
+  }
+  class { '::java' : 
   }
   class { '::mysql::server':
     root_password    => 'pleasechange',
@@ -22,28 +27,23 @@ node 'ci-master' {
     package_ensure => 'present'
   }
   include profiles::gitlab
-  class { '::java' : 
-  }
   include profiles::jenkinsmaster
-  Exec {
-    path => ['/bin', '/sbin', '/usr/bin', '/usr/sbin']
-  }
+  include profiles::sonar
+  Class['::java'] -> Class['::nexus']
   class{ '::nexus':
-    version    => '2.8.0',
-    revision   => '05',
+    version    => '2.8.1',
+    revision   => '01',
     nexus_root => '/opt'
   }
-  include profiles::sonar
   class { 'gradle':
     version => '1.12',
     require => Package['unzip']
   }
-  Class['::java'] -> Class['::nexus']
   class { 'apache' :
     default_vhost => false
   }
   apache::vhost { 'ci-master' :
-    port	   => 80,
+    port	   => 1080,
     default_vhost  => true,
     docroot	   => '/var/www/default',
     proxy_pass     => [
