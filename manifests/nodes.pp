@@ -56,11 +56,13 @@ node 'ci-master' {
 
 }
 node 'ubuntu-trusty' {
-  include puppet
-  include 'docker'
+  class { 'sudo' : }
+  sudo::conf { 'dev':
+    content => '%dev ALL=NOPASSWD:ALL'
+  }
   include devtools::core
   class { 'devtools::desktop' :
-	desktop => 'ubuntu-desktop'
+	desktop => 'xubuntu-desktop'
   }
   include javatools
   include javatools::apache_tomcat

@@ -8,6 +8,7 @@ mod 'puppetlabs/java', '1.1.1'
 mod 'puppetlabs/apache', '1.0.1'
 mod 'willdurand/nodejs', '1.6.4'
 mod 'gini/gradle', '0.2.0'
+mod 'saz/sudo', '3.0.6'
 mod 'gini/archive',
    :git => 'https://github.com/rattermeyer/puppet-archive.git'
 mod 'paulosuzart/gvm', '1.0.1'
