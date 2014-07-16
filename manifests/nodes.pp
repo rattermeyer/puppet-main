@@ -56,7 +56,9 @@ node 'ci-master' {
 
 }
 node 'ubuntu-trusty' {
-  class { 'sudo' : }
+  include puppet
+  include sudo
+  include timezone
   sudo::conf { 'dev':
     content => '%dev ALL=NOPASSWD:ALL'
   }
@@ -67,7 +69,7 @@ node 'ubuntu-trusty' {
   include javatools
   include javatools::apache_tomcat
   include javatools::jboss_wildfly
-  include javatools::sts
+#  include javatools::sts
   include javatools::squirrel
   include intellij
   intellij::plugin { 'AngularJS' :
