@@ -79,4 +79,22 @@ profile::sonar::plugins:
     'sonar-branding-plugin':
       'version'    : '0.4'
 profile::sonar::sonar_version: '4.3.2'
-
+devtools::core::packages:
+    - 'unzip'
+    - 'man'
+    - 'git'
+    - 'git-svn'
+    - 'gitk'
+    - 'vim'
+    - 'tmux'
+    - 'screen'
+    - 'iotop'
+    - 'htop'
+    - 'wget'
+    - 'curl'
+devtools::desktop::packages:
+    - 'meld'
+    - 'firefox'
+    - 'chromium-browser'
+devtools::desktop::desktop:
+   - 'ubuntu-desktop'
