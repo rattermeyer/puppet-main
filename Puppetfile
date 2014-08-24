@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #^syntax detection
 
-forge "http://forge.puppetlabs.com"
+forge "https://forgeapi.puppetlabs.com"
 
 mod 'puppetlabs/stdlib', '4.2.2'
 mod 'puppetlabs/java', '1.1.1'
@@ -17,19 +17,19 @@ mod 'garethr/docker',
    :git => 'https://github.com/garethr/garethr-docker',
    :ref => 'v0.11.1'
 mod 'puppetlabs/ntp', '3.1.1'
-mod 'devtools',
+mod 'rattermeyer/devtools',
    :git => 'https://github.com/rattermeyer/puppet-devtools.git'
-mod 'javatools',
+mod 'rattermeyer/javatools',
    :git => 'https://github.com/rattermeyer/puppet-javatools.git'
-mod 'jstools',
+mod 'rattermeyer/jstools',
    :git => 'https://github.com/rattermeyer/puppet-jstools.git'
-mod 'puppet',
+mod 'rattermeyer/puppet',
    :git => 'https://github.com/rattermeyer/puppet-puppet.git'
-mod 'user',
+mod 'rattermeyer/user',
    :git => 'https://github.com/rattermeyer/puppet-user.git'
-mod 'intellij',
+mod 'rattermeyer/intellij',
    :git => 'https://github.com/rattermeyer/puppet-intellij.git'
-mod 'profiles',
+mod 'rattermeyer/profiles',
    :git => 'https://github.com/rattermeyer/puppet-ci-profiles.git'
 
 mod 'rtyler/jenkins', '1.1.0'
