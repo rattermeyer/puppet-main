@@ -7,4 +7,4 @@
   class { '::java' : 
   }
   include profiles::jenkinsmaster
-
+  include ssh::client
