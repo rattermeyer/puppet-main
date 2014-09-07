@@ -108,5 +108,3 @@ ssh::client_options:
         HashKnownHosts: 'yes'
         GSSAPIAuthentication: 'yes'
         StrictHostKeyChecking : 'no'
-
-	
