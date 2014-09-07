@@ -104,9 +104,9 @@ devtools::desktop::desktop:
    - 'ubuntu-desktop'
 ssh::client_options:
     'Host *':
-        'SendEnv': 'LANG LC_*'
-	'HashKnownHosts': 'yes'
-	'GSSAPIAuthentication': 'yes'
-	'StrictHostKeyChecking' : 'no'
+        SendEnv: 'LANG LC_*'
+        HashKnownHosts: 'yes'
+        GSSAPIAuthentication: 'yes'
+        StrictHostKeyChecking : 'no'
 
 	
