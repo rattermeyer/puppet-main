@@ -29,6 +29,8 @@ profile::jenkinsmaster::plugins:
       'version': '1.1.0'
     'jobConfigHistory':
       'version': '2.9'
+    'join-plugin':
+      'version': '1.15'
     'jobcopy-builder':
       'version': '1.1.2'
     'jquery':
