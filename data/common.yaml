@@ -21,12 +21,16 @@ profile::jenkinsmaster::plugins:
       'version': '0.8.6'
     'docker-plugin':
       'version': '0.7'
+    'join':
+      'version': '1.15'
     'git':
       'version': '2.2.5'
     'git-client':
       'version': '1.10.1'
     'gitlab-hook':
       'version': '1.1.0'
+    'greenballs':
+      'version': '1.14'    
     'jobConfigHistory':
       'version': '2.9'
     'join-plugin':
