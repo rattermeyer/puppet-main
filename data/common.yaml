@@ -33,7 +33,7 @@ profile::jenkinsmaster::plugins:
       'version': '1.14'    
     'jobConfigHistory':
       'version': '2.9'
-    'join-plugin':
+    'join':
       'version': '1.15'
     'jobcopy-builder':
       'version': '1.1.2'
