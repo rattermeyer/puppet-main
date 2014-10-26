@@ -6,6 +6,10 @@
   }
   class { '::java' : 
   }
+  class { 'docker' :
+    extra_parameters => '--bip=172.17.42.1/16',
+    dns => '172.17.42.1'
+  }
   class { 'resolvconf':
     nameservers => ['172.17.42.1'],
     override_dhcp => true
