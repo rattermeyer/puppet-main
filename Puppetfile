@@ -6,6 +6,7 @@ forge "https://forgeapi.puppetlabs.com"
 mod 'puppetlabs/stdlib', '4.3.2'
 mod 'puppetlabs/java', '1.1.1'
 mod 'gdsoperations/resolvconf', '0.3.2'
+mod 'leonardothibes/crontab', '1.0.3'
 mod 'saz/sudo', '3.0.6'
 mod 'saz/timezone', '3.0.1'
 mod 'saz/ssh', '2.3.6'
